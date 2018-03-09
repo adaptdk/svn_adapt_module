@@ -21,6 +21,9 @@
  *   The ending of the log filename.
  */
 function _adapt_debug($user, $debug, $mode = 'var_dump', $dir='/tmp', $file_suffix="debug.txt"){
+  // We do not want "pretty" xdebug formatting.
+  ini_set('html_errors', 0);
+
   switch ($mode) {
     case 'print_r':
       $log = print_r($debug, TRUE);
@@ -55,6 +58,9 @@ function _adapt_debug($user, $debug, $mode = 'var_dump', $dir='/tmp', $file_suff
       break;
   }
   file_put_contents(_adapt_debug_construct_filename($dir, $user, $file_suffix), $log, FILE_APPEND);
+  
+  // Now we do want "pretty" xdebug formatting. 
+  ini_set('html_errors', 1);
 }
 
 /**
